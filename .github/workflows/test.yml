@@ -27,7 +27,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      # Taps this checkout as cerealkiller97/tap, so the brew commands below see the PR's casks.
+      # Taps this checkout as linkwarden/tap, so the brew commands below see the PR's casks.
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
 
@@ -37,14 +37,14 @@ jobs:
       #   Cask/InstallSteps     the quarantine hook is a `postflight` block, not `postflight_steps`
       #   Cask/ZapNotRequired   a "# No zap stanza required" comment instead of `zap :not_required`
       - name: 🎨 Brew style
-        run: brew style --except-cops Cask/StanzaOrder,Cask/InstallSteps,Cask/ZapNotRequired cerealkiller97/tap
+        run: brew style --except-cops Cask/StanzaOrder,Cask/InstallSteps,Cask/ZapNotRequired linkwarden/tap
 
       - name: 🧐 Brew audit
-        run: brew audit --strict --online --tap cerealkiller97/tap
+        run: brew audit --strict --online --tap linkwarden/tap
 
       # Loads every cask for each OS and architecture, so a broken on_macos or on_linux block fails.
       - name: 🧩 Load casks on every platform
-        run: brew readall --os=all --arch=all cerealkiller97/tap
+        run: brew readall --os=all --arch=all linkwarden/tap
 
   install:
     name: 📦 Install (${{ matrix.os }})
@@ -69,7 +69,7 @@ jobs:
         run: |
           set -euo pipefail
           for file in Casks/*.rb; do
-            cask="cerealkiller97/tap/$(basename "$file" .rb)"
+            cask="linkwarden/tap/$(basename "$file" .rb)"
             echo "::group::${cask}"
             brew install --cask "$cask"
 
